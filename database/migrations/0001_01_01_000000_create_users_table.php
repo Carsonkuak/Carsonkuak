@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +12,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->string('remember_token')->nullable();
             $table->timestamps();
+            $table->string('otp')->nullable();  // For storing OTP
+            $table->boolean('is_verified')->default(false);  // To check if the email is verified
+            $table->string('new_email')->nullable();  // Temporary storage for new email
+            $table->string('new_password')->nullable();  // Temporary storage for new password
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
